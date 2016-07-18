@@ -33,28 +33,35 @@ public class Cavalo : Peca {
 
 		i = linha + 2;
 		j = coluna + 1;
-		movimentos[i, j] = testacandidato(i, j, peca, posicoes);
+		if (testacandidato (i, j, peca, posicoes))
+			movimentos [i, j] = true;
 		j = coluna - 1;
-		movimentos[i, j] = testacandidato(i, j, peca, posicoes);
+		if (testacandidato (i, j, peca, posicoes))
+			movimentos [i, j] = true;
 
 		i = linha - 2;
 		j = coluna + 1;
-		movimentos[i, j] = testacandidato(i, j, peca, posicoes);
+		if (testacandidato (i, j, peca, posicoes))
+			movimentos [i, j] = true;
 		j = coluna - 1;
-		movimentos[i, j] = testacandidato(i, j, peca, posicoes);
+		if (testacandidato (i, j, peca, posicoes))
+			movimentos [i, j] = true;
 
 		j = coluna + 2;
 		i = linha + 1;
-		movimentos[i, j] = testacandidato(i, j, peca, posicoes);
+		if (testacandidato (i, j, peca, posicoes))
+			movimentos [i, j] = true;
 		i = linha - 1;
-		movimentos[i, j] = testacandidato(i, j, peca, posicoes);
+		if (testacandidato (i, j, peca, posicoes))
+			movimentos [i, j] = true;
 
 		j = coluna - 2;
 		i = linha + 1;
-		movimentos[i, j] = testacandidato(i, j, peca, posicoes);
+		if (testacandidato (i, j, peca, posicoes))
+			movimentos [i, j] = true;
 		i = linha - 1;
-		movimentos[i, j] = testacandidato(i, j, peca, posicoes);
-
+		if (testacandidato (i, j, peca, posicoes))
+			movimentos [i, j] = true;
 		return movimentos;
 	}
 

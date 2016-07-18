@@ -30,7 +30,8 @@ public class Rei : Peca {
 		 */
 		for (int i = linha-1; i <= linha+1; i++) {
 			for (int j = coluna-1; j <= coluna+1; j++) {
-				movimentos [i, j] = testacandidato (i, j, peca, posicoes);
+				if (testacandidato (i, j, peca, posicoes))
+					movimentos [i, j] = true;
 			}
 		}
 		//TODO: ROQUE
