@@ -9,6 +9,8 @@ public class TabuleiroController : MonoBehaviour {
 	public float x_unidade;
 	public float y_unidade;
 
+	public GameObject esfera;
+
 	public GameObject peaoP;
 	public GameObject torreP;
 	public GameObject cavaloP;
@@ -25,11 +27,11 @@ public class TabuleiroController : MonoBehaviour {
 
 
 	void Start () {
-		Debug.Log ("iniciado");
+		//Debug.Log ("iniciado");
 		tabuleiro = new Tabuleiro ();
 		ConvertePecas ();
 	}
-
+		
 	private void ConvertePecas(){
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
@@ -75,7 +77,7 @@ public class TabuleiroController : MonoBehaviour {
 				}
 			}
 		}
-		Debug.Log ("Posicionadas");
+		//Debug.Log ("Posicionadas");
 	}
 
 	private void Posiciona(GameObject peca, int x, int y) {
@@ -85,4 +87,32 @@ public class TabuleiroController : MonoBehaviour {
 		element.name = peca.name + "("+x.ToString()+", " + y.ToString() + ")";
 		element.transform.SetParent (this.transform, true);
 	}
+
+
+	private void MarcaLugares() {
+		//TODO: Melhorar implementacao
+		//Debug.Log ("marcacao iniciada");
+		bool[,] lugares = Peao.GetMovimentos (
+			                   tabuleiro.posicoes,
+			                   1,
+			                   0);
+		
+		//Debug.Log ("lugares selecionados");
+
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+//				Debug.Log ("lugares[" + i.ToString () + ", " + j.ToString () + 
+//					"] = " +  lugares[i,j].ToString());
+				if (lugares [i, j]) {
+					//TODO: Algo mais bonito que a esfera
+					//Debug.Log ("Marcando lugar " + i.ToString () + ", " + j.ToString ());
+					Instantiate (esfera,
+						new Vector3 ((j - 4) * y_unidade, (i - 4) * x_unidade, 0f),
+						Quaternion.identity);
+				}
+			}
+		}
+
+	}
+
 }
