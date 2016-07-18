@@ -29,7 +29,7 @@ public class TabuleiroController : MonoBehaviour {
 		ConvertePecas ();
 	}
 		
-	private void ConvertePecas(){
+	public void ConvertePecas(){
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
 				switch (tabuleiro.posicoes[i,j]) {
@@ -78,10 +78,15 @@ public class TabuleiroController : MonoBehaviour {
 
 	private void Posiciona(GameObject peca, int x, int y) {
 		GameObject element = (GameObject) Instantiate (peca,
-			new Vector3 ((y-4) * y_unidade, (x - 4) * x_unidade, 0f),
+			new Vector3 ((y-4) * y_unidade, (x - 4) * y_unidade, 0f),
 			Quaternion.identity);
 		element.name = peca.name + "("+x.ToString()+", " + y.ToString() + ")";
 		element.transform.SetParent (this.transform, true);
 	}
+
+	public void AtualizaVisao() {
 		
+	}
+
+
 }

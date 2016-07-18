@@ -93,13 +93,6 @@ public class Bispo : Peca {
 
 		return movimentos;
 	}
-
-	private static bool testalimite(int x,int y) {
-		if (x < 0 || y < 0)
-			return false;
-		if (x > 7 || y > 7)
-			return false;
-		return true;
-	}
+		
 
 }

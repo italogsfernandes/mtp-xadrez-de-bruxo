@@ -29,7 +29,9 @@ public class Peao : Peca {
 		j = coluna;
 
 		//Debug.Log ("Meu peao vai para: " + i.ToString () + ", " + j.ToString ());
-		movimentos [i, j] = testacandidato (i, j, peca, posicoes);
+		if (testacandidato (i, j, peca, posicoes) ){
+			movimentos [i, j] = true;
+		}
 
 		if ((linha == 1 && peca > 0) || (linha == 6 && peca < 0)) {
 			i = i + Math.Sign (peca) * 1;
