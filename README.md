@@ -1,6 +1,8 @@
 # Xadrez de bruxo
 Tabuleiro de xadrez controlado por voz.
 
+Esse respositorio necessita urgentemente de uma repaginada
+
 ##1. O que o jogo faz?
 
 O objetivo do jogo é a contrução de um tabuleiro que mova suas peças sozinho e pelo comando de voz do usuário.
