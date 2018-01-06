@@ -3,6 +3,7 @@
 
 # Python
 *.pyc
+*.idea
 
 Referencias/*
 # =============== #
