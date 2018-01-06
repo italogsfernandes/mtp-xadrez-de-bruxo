@@ -1,3 +1,9 @@
+# Editor de texto
+*~
+
+# Python
+*.pyc
+
 Referencias/*
 # =============== #
 # Unity generated #
