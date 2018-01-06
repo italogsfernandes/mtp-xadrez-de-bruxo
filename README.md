@@ -23,6 +23,7 @@ python app.py
 - Unity: Simulação do funcionamento com o Unity.
 - Hardware: Esquemas de montagem do Hardware
 
+
 ## Development setup
 
 * [StockFish](https://stockfishchess.org/) - ChessEngine utilizada
@@ -35,6 +36,9 @@ python app.py
 * Arduino:
   *  [Platomformio](https://atom.io/packages/platomformio) - Atom integration with PlatformIO (for building arduino files,but arduino IDE can also be used.).
   * [Arduino IDE](www.arduino.cc) - If you prefer.
+
+## Warning: Undocumented codes!!! 
+I will comment it later... there is almost no PEP8 conventions here.
 
 ## More Info
 Estes são os primeiros links que achei quando joguei a ideia no google:
