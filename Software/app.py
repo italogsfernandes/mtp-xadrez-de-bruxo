@@ -24,16 +24,18 @@ import chess.svg
 import chess.uci
 
 from controllers import myqgraph
+
+
 class ExampleApp(QMainWindow, base.Ui_MainWindow):
     def __init__(self, parent=None):
         super(self.__class__, self).__init__(parent)
         self.setupUi(self)
 
         self.graphicsViewBoard = myqgraph.ItaloGraphicsView(self.centralwidget)
-        self.graphicsViewBoard.setObjectName(("graphicsViewBoard"))
-        self.verticalLayout_7.removeWidget(self.label_3)
-        self.label_3.setParent(None)
-        self.verticalLayout_7.addWidget(self.graphicsViewBoard)
+        self.add_board_to_ui()
+
+        self.start_in = None
+        self.finish_in = None
 
         self.engine = chess.uci.popen_engine("models/stockfish-8-linux/Linux/stockfish_8_x64")
         self.engine.uci()
@@ -44,28 +46,44 @@ class ExampleApp(QMainWindow, base.Ui_MainWindow):
         self.graphicsViewBoard.setScene(self.scene)
         self.item = QtSvg.QGraphicsSvgItem('tmp.svg')
 
-        self.btnOpIniciar.clicked.connect(self.do_iniciar)
-        self.comboBoxMoveFrom.currentIndexChanged.connect(self.populate_move_to)
-        self.pushButtonMove.clicked.connect(self.btn_move_clicked)
-        self.btn_computer_move.clicked.connect(self.do_computer_move)
-        self.checkBoxUciSan.stateChanged.connect(self.uci_san_changed)
+        self.btn_connections()
 
-        self.connect(self.graphicsViewBoard, SIGNAL("clicked(QString)"), self.board_clicked)
         self.command = None
 
         self.btn_computer_move.setVisible(False)
         self.do_iniciar()
 
-        self.start_in = None
-        self.finish_in = None
+    def btn_connections(self):
+        self.btnOpIniciar.clicked.connect(self.do_iniciar)
+        self.comboBoxMoveFrom.currentIndexChanged.connect(self.populate_move_to)
+        self.pushButtonMove.clicked.connect(self.btn_move_clicked)
+        self.btn_computer_move.clicked.connect(self.do_computer_move)
+        self.checkBoxUciSan.stateChanged.connect(self.uci_san_changed)
+        self.connect(self.graphicsViewBoard, SIGNAL("clicked(QString)"), self.board_clicked)
+
+    def add_board_to_ui(self):
+        self.graphicsViewBoard.setObjectName(("graphicsViewBoard"))
+        self.verticalLayout_7.removeWidget(self.label_3)
+        self.label_3.setParent(None)
+        self.verticalLayout_7.addWidget(self.graphicsViewBoard)
 
     def board_clicked(self, square):
         if self.start_in is None:
             self.start_in = square
+            xablaus = self.board.piece_at(chess.SQUARE_NAMES.index(self.start_in))
+            if xablaus is None or xablaus.color == chess.BLACK:
+                self.start_in = None
+            else:
+                self.update_board()
         else:
             self.finish_in = square
-            self.move_uci(self.start_in + self.finish_in)
+            try:
+                self.move_uci(self.start_in + self.finish_in)
+                self.do_computer_move()
+            except:
+                print("Invalido")
             self.start_in = None
+            self.update_board()
 
     def uci_san_changed(self):
         if self.checkBoxUciSan.checkState():
@@ -74,7 +92,6 @@ class ExampleApp(QMainWindow, base.Ui_MainWindow):
             self.label_2.setText("From:")
 
         self.populate_move_from()
-
 
     def computer_callback(self, command):
         bestmove, ponder = self.command.result()
@@ -88,7 +105,6 @@ class ExampleApp(QMainWindow, base.Ui_MainWindow):
         #self.command = self.engine.go(movetime=2000, async_callback=self.computer_callback)
         #print(bestmove)
         #best_move = self.engine.go(movetime=2000)  # Gets a tuple of bestmove and ponder move
-
 
     def move_uci(self, move):
         self.board.push_uci(move)
@@ -111,7 +127,6 @@ class ExampleApp(QMainWindow, base.Ui_MainWindow):
         self.move_from_to(self.comboBoxMoveFrom.currentText().lower(), self.comboBoxMoveTo.currentText().lower())
         if self.checkBoxComputer.checkState():
             self.do_computer_move()
-
 
     def iniciar_jogo(self):
         self.board = chess.Board()
@@ -165,7 +180,12 @@ class ExampleApp(QMainWindow, base.Ui_MainWindow):
                     self.comboBoxMoveTo.addItem(move_to)
 
     def update_board(self):
-        self.board_svg = chess.svg.board(self.board, size=400)
+        if self.start_in is None:
+            self.board_svg = chess.svg.board(self.board, size=400)
+        else:
+            self.board_svg = chess.svg.board(self.board, size=400,
+                                             arrows=[(chess.SQUARE_NAMES.index(self.start_in),
+                                                      chess.SQUARE_NAMES.index(self.start_in))])
         with open('tmp.svg', 'w') as temp_file:
             temp_file.write(self.board_svg)
 
